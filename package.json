@@ -1,5 +1,5 @@
 {
-  "name": "chrome-session-guard",
+  "name": "chrome-session-guard-skill",
   "version": "0.1.0",
   "description": "Skill-first repository for safely opening pages in the user's default macOS Chrome session with multi-instance guardrails.",
   "type": "module",

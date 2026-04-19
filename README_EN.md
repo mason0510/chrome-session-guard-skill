@@ -1,4 +1,4 @@
-# Chrome Session Guard
+# Chrome Session Guard Skill
 > A skill-first open-source repository for safely opening pages in the user's default macOS Chrome session without guessing the wrong profile or the wrong Chrome instance.
 
 [中文说明](./README.md)
@@ -64,8 +64,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## 📧 Contact
 - GitHub: [@mason0510](https://github.com/mason0510)
-- WeChat: zhcmason
-- Email: zhang_989898@126.com
 - Issues: please use GitHub Issues
 
 ## 📄 License

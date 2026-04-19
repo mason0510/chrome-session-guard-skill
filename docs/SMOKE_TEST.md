@@ -7,7 +7,7 @@
 - 操作系统：macOS
 - 浏览器：Google Chrome
 - 运行时：Node.js
-- 仓库路径：`/Users/houzi/code/23-opensource/chrome-session-guard`
+- 仓库名：`chrome-session-guard-skill`
 
 ## 本轮测试目标
 1. 纯逻辑测试通过
