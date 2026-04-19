@@ -1,0 +1,35 @@
+# Node
+node_modules/
+
+# Build / temp
+coverage/
+dist/
+build/
+tmp/
+temp/
+.trash/
+*.log
+logs/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local secrets
+.env
+.env.local
+.env.*.local
+credentials/
+secrets/
+.aws/
+.ssh/
+
+# Debug / browser state
+chrome-profile-debug-*/
+*.heapsnapshot

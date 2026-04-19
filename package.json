@@ -1,0 +1,42 @@
+{
+  "name": "chrome-session-guard",
+  "version": "0.1.0",
+  "description": "Skill-first repository for safely opening pages in the user's default macOS Chrome session with multi-instance guardrails.",
+  "type": "module",
+  "private": false,
+  "bin": {
+    "chrome-session-guard": "./scripts/chrome-session-guard.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "scripts",
+    "README.md",
+    "README_EN.md",
+    "ARCHITECTURE.md",
+    "USAGE_AND_MAINTENANCE.md",
+    "TODOS.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "smoke:help": "node ./scripts/chrome-session-guard.mjs --help",
+    "smoke:list-profiles": "node ./scripts/chrome-session-guard.mjs list-profiles",
+    "smoke:list-windows": "node ./scripts/chrome-session-guard.mjs list-windows",
+    "smoke:guard": "node ./scripts/chrome-session-guard.mjs open https://example.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "skill",
+    "chrome",
+    "macos",
+    "session",
+    "guard",
+    "profile",
+    "applescript"
+  ],
+  "license": "MIT"
+}
