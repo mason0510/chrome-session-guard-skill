@@ -308,6 +308,140 @@ node ./scripts/chrome-session-guard.mjs list-windows
 
 ---
 
+## Q&A
+
+### Q1：这个和 Playwright 区别是什么？
+
+不是一类东西。
+
+- **chrome-session-guard**：只解决“**在正确的现有 Chrome 会话里打开页面**”这件事
+- **Playwright**：是完整的浏览器自动化框架，负责启动、接管、脚本化控制浏览器
+
+这个仓库的核心价值不是自动化，而是：
+
+- 少打错 profile
+- 少打错 Chrome 实例
+- 少打错窗口
+- 在你已经在用的真实 Chrome 会话里打开页面
+
+如果你要的是：
+
+- 自动点击
+- 自动填表
+- 自动抓 DOM
+- 自动跑测试
+
+那主角应该是 Playwright / CDP / MCP，不是这个仓库。
+
+---
+
+### Q2：它能不能复用浏览器登录态？
+
+**能，但边界要说清楚。**
+
+它的复用方式不是“读取 cookie 后自己伪造浏览器”，而是：
+
+- 直接调用你本机现有的 **Google Chrome**
+- 复用当前/默认会话，或显式指定的 profile
+- 让页面在那个真实 Chrome 会话里打开
+
+所以：
+
+- 你原本已经登录的网站，通常会继续保持登录
+- 你原本已有的 Cookie / Local Storage / 扩展环境，也会随那个会话一起生效
+
+但它**不负责**：
+
+- 接管当前登录态做自动化
+- 连接 CDP / MCP
+- 绕过网站风控
+- 替你保证“这个 profile 一定就是你想要的目标账号”
+
+它做的是**减少打错会话**，不是“浏览器自动化伪装器”。
+
+---
+
+### Q3：为什么很多场景下 Playwright 更容易被封控？
+
+因为很多主流网站现在已经不只是看“能不能打开页面”，而是在看：
+
+- 浏览器指纹
+- 自动化特征
+- 行为节奏
+- 新环境/冷环境登录
+- `webdriver` / DevTools / 自动化上下文痕迹
+
+Playwright 本质上是自动化框架，即使做过各种规避，很多站点仍会重点盯这种流量。
+
+而这个仓库的思路完全不同：
+
+- 不新造一个自动化浏览器环境
+- 不默认拉起一套新的临时 profile
+- 不假装自己是“像真人一样的自动化”
+- 只是把页面打开到你**已经在使用的真实 Chrome 会话**
+
+所以它不是“反封控工具”，但在很多“只是想复用现有登录态打开页面”的场景里，**天然比 Playwright 少一层自动化暴露面**。
+
+---
+
+### Q4：它和 BitBrowser（有些人会写成 bb-browser）区别是什么？
+
+也不是同一层工具。
+
+**chrome-session-guard** 解决的是：
+
+- 当前机器上哪个 Chrome 才是对的
+- 当前默认/现有会话能不能安全打开
+- 多实例时先拦住，别乱打
+
+**BitBrowser** 解决的是：
+
+- 一账号一环境
+- 一账号一代理
+- 一账号一指纹
+- 多账号长期隔离运营
+
+一句话说：
+
+- 你要的是“**别打错我正在用的 Chrome 会话**” → 用这个仓库
+- 你要的是“**多账号隔离、独立环境、独立代理、独立指纹**” → 用 BitBrowser
+
+两者可以互补，但不是替代关系。
+
+---
+
+### Q5：怎么触发这个 skill？
+
+如果你是把它装进 **Codex** 或 **Claude Code** 的 skills 目录，最常见触发方式就是在任务里直接说出这类意图：
+
+- “用我当前的 Chrome 打开这个页面”
+- “不要新建干净浏览器，复用我现有 Chrome 会话”
+- “先看下当前有哪些 Chrome profile / 窗口”
+- “帮我在默认 Chrome 会话里打开这个链接”
+- “显式用 Profile 7 / Default 打开这个地址”
+
+更直接一点，你也可以明确点名这个 skill：
+
+```text
+用 chrome-session-guard 打开 https://example.com
+```
+
+或者：
+
+```text
+先用 chrome-session-guard 列出当前 Chrome 窗口和 profile
+```
+
+如果你不是通过 agent 触发，而是自己本地直接跑脚本，那就不用讲“触发词”，直接执行命令：
+
+```bash
+node ./scripts/chrome-session-guard.mjs list-profiles
+node ./scripts/chrome-session-guard.mjs list-windows
+node ./scripts/chrome-session-guard.mjs open https://example.com
+```
+
+---
+
 ## 目录说明
 
 ```text
@@ -355,6 +489,22 @@ chrome-session-guard-skill/
 npm test
 node ./scripts/chrome-session-guard.mjs --help
 ```
+
+---
+
+## 如果这个仓库帮你避开过坑，欢迎 Star
+
+如果你也被这些问题反复坑过：
+
+- 明明想复用当前登录态，结果打开了错误 profile
+- 机器上开了多个 Chrome 实例，脚本却自作聪明乱打
+- 只是想开个页面，却把会话、窗口、账号全搞混
+
+那这个仓库大概率就是在解决你的真实问题。
+
+如果它帮你省过一次排查时间，欢迎点个 **Star**。
+
+也欢迎提 **Issue** 或直接发 **PR**，把更多真实现场补进来。
 
 ---
 
